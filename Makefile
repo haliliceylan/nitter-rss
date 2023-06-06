@@ -8,4 +8,4 @@ install-usr-local:
 	sudo cp build/nitter-rss /usr/local/bin
 
 build-multi-arch:
-	./go-build-multiarch.sh github.com/haliliceylan/nitter-rsss
+	./go-build-multiarch.sh github.com/haliliceylan/nitter-rss
