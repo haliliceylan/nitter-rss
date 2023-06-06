@@ -8,6 +8,7 @@ import (
 	"os"
 	"strings"
 	"time"
+	"regexp"
 )
 
 var (
@@ -18,99 +19,10 @@ var (
 )
 
 var nitterHosts = []string{
-	"nitter.net",
-	"nitter.lacontrevoie.fr",
-	"nitter.fdn.fr",
-	"nitter.1d4.us",
-	"nitter.kavin.rocks",
-	"nitter.unixfox.eu",
-	"nitter.domain.glass",
-	"birdsite.xanny.family",
-	"nitter.moomoo.me",
-	"bird.trom.tf",
-	"nitter.it",
-	"twitter.censors.us",
-	"nitter.grimneko.de",
-	"nitter.fly.dev",
-	"notabird.site ",
-	"nitter.weiler.rocks",
-	"nitter.sethforprivacy.com",
-	"nitter.cutelab.space",
-	"nitter.nl",
-	"nitter.mint.lgbt",
-	"nitter.bus-hit.me",
-	"nitter.esmailelbob.xyz",
-	"tw.artemislena.eu",
-	"nitter.winscloud.net",
-	"nitter.tiekoetter.com",
-	"nitter.spaceint.fr",
-	"nitter.privacy.com.de",
-	"nitter.poast.org",
-	"nitter.bird.froth.zone",
-	"nitter.dcs0.hu",
-	"twitter.dr460nf1r3.org",
-	"nitter.garudalinux.org",
-	"twitter.femboy.hu",
-	"nitter.cz",
-	"nitter.privacydev.net",
-	"nitter.evil.site",
-	"tweet.lambda.dance",
-	"nitter.kylrth.com",
-	"nitter.foss.wtf",
-	"nitter.priv.pw",
-	"nitter.tokhmi.xyz",
-	"nitter.catalyst.sx",
-	"unofficialbird.com",
-	"nitter.projectsegfau.lt",
-	"nitter.eu.projectsegfau.lt",
-	"singapore.unofficialbird.com",
-	"canada.unofficialbird.com",
-	"india.unofficialbird.com",
-	"nederland.unofficialbird.com",
-	"uk.unofficialbird.com",
-	"n.l5.ca",
-	"nitter.slipfox.xyz",
-	"nitter.soopy.moe",
-	"nitter.qwik.space",
-	"read.whatever.social",
-	"nitter.rawbit.ninja",
-	"nt.vern.cc",
-	"nitter.ir",
-	"nitter.privacytools.io",
-	"nitter.sneed.network",
-	"n.sneed.network",
-	"nitter.smnz.de",
-	"nitter.twei.space",
-	"nitter.inpt.fr",
-	"nitter.d420.de",
-	"nitter.caioalonso.com",
-	"nitter.at",
-	"nitter.pw",
-	"nitter.nicfab.eu",
-	"bird.habedieeh.re",
-	"nitter.hostux.net",
-	"nitter.adminforge.de",
-	"nitter.platypush.tech",
-	"nitter.pufe.org",
+	
 	"nitter.us.projectsegfau.lt",
-	"nitter.arcticfoxes.net",
-	"t.com.sb",
-	"nitter.kling.gg",
-	"nitter.ktachibana.party",
-	"nitter.riverside.rocks",
-	"nitter.lunar.icu",
-	"twitter.moe.ngo",
-	"nitter.freedit.eu",
-	"ntr.frail.duckdns.org",
-	"nitter.librenode.org",
-	"n.opnxng.com",
-	"nitter.plus.st",
+	
 	"nitter.in.projectsegfau.lt",
-	"nitter.tux.pizza",
-	"t.floss.media",
-	"twit.hell.rodeo",
-	"twt.funami.tech",
-	"nitter.nachtalb.io",
 }
 
 func main() {
@@ -205,6 +117,11 @@ func fetchRss(username string) ([]byte, error) {
 	// Replace nitter host with Twitter host in status URLs
 	bodyStr := string(body)
 	bodyStr = strings.ReplaceAll(bodyStr, nitterHosts[hostIndex], "twitter.com")
+
+	// experimental
+	m := regexp.MustCompile(`\/\/.*\/(\w+)\/status\/(\d+)`)
+	Str := "//twitter.com/${1}/status/$2"
+	bodyStr = m.ReplaceAllString(bodyStr, Str)
 
 	return []byte(bodyStr), nil
 }
